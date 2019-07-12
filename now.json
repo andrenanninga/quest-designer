@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "name": "quest",
+  "alias": "quest.nannin.ga",
+  "builds": [{ "src": "package.json", "use": "@now/next" }]
+}

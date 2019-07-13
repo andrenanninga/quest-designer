@@ -1,19 +1,18 @@
 import React from "react";
+import useNode from "../hooks/useNode";
+import useBounds from "../hooks/useBounds";
 
-const Dot = ({ position, cardPosition }) => {
-  const ref = React.useRef();
+const Dot = ({ style = {}, direction = "down" }) => {
+  const { ref, bounds } = useBounds();
+  const { update } = useNode();
+
   React.useEffect(() => {
-    if (ref.current && cardPosition) {
-      const rect = ref.current.getBoundingClientRect();
-
-      console.log(
-        rect.x,
-        rect.y,
-        rect.x - cardPosition[0],
-        rect.y - cardPosition[1]
-      );
-    }
-  }, [ref, cardPosition]);
+    update({
+      x: bounds.x + bounds.width / 2,
+      y: bounds.y + bounds.height / 2,
+      direction
+    });
+  }, [bounds]);
 
   return (
     <div
@@ -23,10 +22,7 @@ const Dot = ({ position, cardPosition }) => {
         e.stopPropagation();
         e.preventDefault();
       }}
-      style={{
-        left: position === "left" ? "-1.5rem" : "auto",
-        right: position === "right" ? "-1.5rem" : "auto"
-      }}
+      style={style}
     >
       <div className={`w-2 h-2 rounded-full bg-indigo-200`} />
     </div>

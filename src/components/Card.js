@@ -1,9 +1,25 @@
 import React from "react";
 import { useSpring, animated, interpolate, config } from "react-spring";
+import { css } from "astroturf";
 import classnames from "classnames";
 import useDraggable from "../hooks/useDraggable";
 import Dot from "./Dot";
 import Label from "./Label";
+
+css`
+  .card {
+    @apply w-64;
+    @apply flex;
+    @apply flex-col;
+    @apply rounded-lg;
+    @apply border-2;
+    @apply absolute;
+    @apply bg-white;
+    @apply cursor-move;
+    @apply shadow-xl;
+    @apply border-gray-300;
+  }
+`;
 
 const Card = ({ text, actor, input, outputs, wide, xy }) => {
   const { spring, active, hover, bind } = useDraggable(xy);
@@ -18,16 +34,7 @@ const Card = ({ text, actor, input, outputs, wide, xy }) => {
     <animated.div
       ref={ref}
       className={classnames([
-        "w-64",
-        "flex",
-        "flex-col",
-        "rounded-lg",
-        "border-2",
-        "absolute",
-        "bg-white",
-        "cursor-move",
-        "shadow-xl",
-        "border-gray-300",
+        "card",
         { "z-20": active },
         { "border-indigo-500": hover || active }
       ])}
@@ -48,17 +55,13 @@ const Card = ({ text, actor, input, outputs, wide, xy }) => {
       ) : null}
       <div className="flex justify-between items-start p-4 py-2 bg-gray-100 rounded-lg">
         <div className="items-center relative flex py-1">
-          <Dot
-            cardPosition={spring.getValue()}
-            position="left"
-            color="purple"
-          />
+          <Dot direction="left" style={{ left: "-1.5rem" }} />
           <Label>{input}</Label>
         </div>
         <div className="flex flex-col">
           {outputs.map(output => (
             <div className="items-center justify-end relative flex py-1">
-              <Dot position="right" color="green" />
+              <Dot direction="right" style={{ right: "-1.5rem" }} />
               <Label>{output}</Label>
             </div>
           ))}
@@ -79,16 +82,7 @@ const DialogueCard = ({ text, actor, input, outputs, wide, xy }) => {
   return (
     <animated.div
       className={classnames([
-        "w-64",
-        "flex",
-        "flex-col",
-        "rounded-lg",
-        "border-2",
-        "absolute",
-        "bg-white",
-        "cursor-move",
-        "shadow-xl",
-        "border-gray-300",
+        "card",
         { "z-20": active },
         { "border-indigo-500": hover || active }
       ])}
@@ -106,7 +100,7 @@ const DialogueCard = ({ text, actor, input, outputs, wide, xy }) => {
           left: "calc(50% - 1rem)"
         }}
       >
-        <Dot />
+        <Dot direction="up" />
       </div>
       <div className="flex">
         {actor ? (
@@ -151,7 +145,7 @@ const DialogueCard = ({ text, actor, input, outputs, wide, xy }) => {
           left: "calc(50% - 1rem)"
         }}
       >
-        <Dot />
+        <Dot direction="down" />
       </div>
     </animated.div>
   );
